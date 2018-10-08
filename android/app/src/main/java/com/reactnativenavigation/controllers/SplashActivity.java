@@ -9,6 +9,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
+import com.facebook.react.modules.core.DeviceEventManagerModule;
 import com.reactnativenavigation.NavigationApplication;
 import com.reactnativenavigation.react.*;
 import com.reactnativenavigation.utils.CompatUtils;
