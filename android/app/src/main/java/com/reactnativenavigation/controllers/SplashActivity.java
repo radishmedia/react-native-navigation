@@ -48,20 +48,35 @@ public abstract class SplashActivity extends AppCompatActivity {
                 return;
             }
 
-            //  진입 경로가 push notification인 경우
-            boolean isPushNotification = getIntent() != null && getIntent().getExtras() != null && getIntent().getExtras().getString("url") != null;
+            //  radish 서버를 통해 push 진입한 경우
+            boolean isPushFromServer = getIntent() != null && getIntent().getExtras() != null && getIntent().getExtras().getString("deeplink") != null;
+
+            //  braze를 통해 push 진입한 경우
+            boolean isPushFromBraze = getIntent() != null && getIntent().getExtras() != null && getIntent().getExtras().getString("uri") != null;
 
             //  진입 경로가 deeplink인 경우
             boolean isDeeplink = getIntent() != null && getIntent().getData() != null;
 
-            if(!isPushNotification || !isDeeplink ) {
+            //  진입 경로에 상관없이 deeplink값을 갖고 있는 경우에만 해당 함수를 실행한다.
+            if(!isPushFromServer && !isPushFromBraze && !isDeeplink ) {
+                //  refresh 기능 함수
                 NavigationApplication.instance.getEventEmitter().sendAppLaunchedEvent();
             }
 
-            if ((isPushNotification || isDeeplink) && NavigationApplication.instance.clearHostOnActivityDestroy(this)) {
+            if(getIntent().getData() != null) {
+                try {
+                    //  deeplink data를 event로 react-native에 전달한다.(해당 방법이 아닌경우 app이 foreground인 경우 해당값을 react-native의 branch handler에서 전달받지 못함.)
+                    NavigationApplication.instance.getReactGateway().getReactContext().getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class).emit("deeplinkEvent", getIntent().getData().toString());
+                } catch (Exception e) {
+
+                }
+            }
+
+            if ((isPushFromServer || isPushFromBraze || isDeeplink ) && NavigationApplication.instance.clearHostOnActivityDestroy(this)) {
                 overridePendingTransition(0, 0);
                 finish();
             }
+
             return;
         }
 
