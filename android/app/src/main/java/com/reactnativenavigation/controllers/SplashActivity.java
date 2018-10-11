@@ -53,7 +53,7 @@ public abstract class SplashActivity extends AppCompatActivity {
             boolean isPushFromServer = getIntent() != null && getIntent().getExtras() != null && getIntent().getExtras().getString("deeplink") != null;
 
             //  braze를 통해 push 진입한 경우
-            boolean isPushFromBraze = getIntent() != null && getIntent().getExtras() != null && getIntent().getExtras().getString("uri") != null;
+            boolean isPushFromBraze = getIntent() != null && getIntent().getExtras() != null && getIntent().getExtras().getBoolean("push");
 
             //  진입 경로가 deeplink인 경우
             boolean isDeeplink = getIntent() != null && getIntent().getData() != null;
