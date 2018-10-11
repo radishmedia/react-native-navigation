@@ -50,16 +50,19 @@ public abstract class SplashActivity extends AppCompatActivity {
             }
 
             //  radish 서버를 통해 push 진입한 경우
-            boolean isPushFromServer = getIntent() != null && getIntent().getExtras() != null && getIntent().getExtras().getString("deeplink") != null;
+            boolean isPushFromServer = getIntent() != null && getIntent().getStringExtra("deeplink") != null;
 
             //  braze를 통해 push 진입한 경우
-            boolean isPushFromBraze = getIntent() != null && getIntent().getExtras() != null && getIntent().getExtras().getBoolean("push");
+            boolean isPushFromBraze = getIntent() != null && getIntent().getBooleanExtra("push", false);
+
+            //  진입 경로가 local push로 진입한 경우
+            boolean isLocalNotification = getIntent() != null && getIntent().getStringExtra("body") != null;
 
             //  진입 경로가 deeplink인 경우
             boolean isDeeplink = getIntent() != null && getIntent().getData() != null;
 
             //  진입 경로에 상관없이 deeplink값을 갖고 있는 경우에만 해당 함수를 실행한다.
-            if(!isPushFromServer && !isPushFromBraze && !isDeeplink ) {
+            if(!isPushFromServer && !isPushFromBraze && !isLocalNotification && !isDeeplink) {
                 //  refresh 기능 함수
                 NavigationApplication.instance.getEventEmitter().sendAppLaunchedEvent();
             }
@@ -73,7 +76,7 @@ public abstract class SplashActivity extends AppCompatActivity {
                 }
             }
 
-            if ((isPushFromServer || isPushFromBraze || isDeeplink ) && NavigationApplication.instance.clearHostOnActivityDestroy(this)) {
+            if ((isPushFromServer || isPushFromBraze || isLocalNotification || isDeeplink ) && NavigationApplication.instance.clearHostOnActivityDestroy(this)) {
                 overridePendingTransition(0, 0);
                 finish();
             }
