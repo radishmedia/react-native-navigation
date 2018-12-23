@@ -67,7 +67,7 @@ public abstract class SplashActivity extends AppCompatActivity {
                 NavigationApplication.instance.getEventEmitter().sendAppLaunchedEvent();
             }
 
-            if(getIntent().getData() != null) {
+            if(getIntent().getData() != null && isPushFromBraze) {
                 try {
                     //  deeplink data를 event로 react-native에 전달한다.(해당 방법이 아닌경우 app이 foreground인 경우 해당값을 react-native의 branch handler에서 전달받지 못함.)
                     NavigationApplication.instance.getReactGateway().getReactContext().getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class).emit("deeplinkEvent", getIntent().getData().toString());
