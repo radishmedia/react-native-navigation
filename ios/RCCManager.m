@@ -232,6 +232,7 @@
     //load the splash from the default image or from LaunchImage in the xcassets
     
     CGFloat screenHeight = screenBounds.size.height;
+    CGFloat screenScale = [UIScreen mainScreen].scale;
     
     NSString* imageName = @"Default";
     if (screenHeight == 568)
@@ -240,7 +241,9 @@
         imageName = [imageName stringByAppendingString:@"-667h"];
     else if (screenHeight == 736)
         imageName = [imageName stringByAppendingString:@"-736h"];
-    
+    else if (screenHeight == 812)
+        imageName = [imageName stringByAppendingString:@"-812h"];
+
     //xcassets LaunchImage files
     UIImage *image = [UIImage imageNamed:imageName];
     if (image == nil)
@@ -255,12 +258,12 @@
         imageName = [imageName stringByAppendingString:@"-800-667h"];
       else if (screenHeight == 736)
         imageName = [imageName stringByAppendingString:@"-800-Portrait-736h"];
-      else if (screenHeight == 768)
-        imageName = [imageName stringByAppendingString:@"-Landscape"]; 
       else if (screenHeight == 812)
         imageName = [imageName stringByAppendingString:@"-1100-Portrait-2436h"];
-      else if (screenHeight == 1024)
-        imageName = [imageName stringByAppendingString:@"-Portrait"];
+      else if (screenHeight == 828)
+          imageName = [imageName stringByAppendingString:@"-1200-Portrait-1792h"];
+      else if (screenHeight == 896)
+          imageName = [imageName stringByAppendingString:screenScale == 2. ? @"-1200-Portrait-1792h" : @"-1200-Portrait-2688h"];
 
       image = [UIImage imageNamed:imageName];
     }
