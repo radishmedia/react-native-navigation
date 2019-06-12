@@ -7,10 +7,10 @@ def safeExtGet(prop, fallback) {
 
 android {
     compileSdkVersion safeExtGet('compileSdkVersion', 27)
-    buildToolsVersion safeExtGet('buildTollsVersion', '27.0.3')
+    buildToolsVersion safeExtGet('buildToolsVersion', '27.0.3')
 
     defaultConfig {
-        minSdkVersion safeExtGet('compileSdkVersion', 16)
+        minSdkVersion safeExtGet('minSdkVersion', 16)
         targetSdkVersion safeExtGet('targetSdkVersion', 26)
         versionCode 1
         versionName "1.0"
@@ -49,7 +49,7 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: "libs", include: ["*.jar"])
+    implementation fileTree(dir: "libs", include: ["*.jar"])
 
     implementation "com.android.support:design:${safeExtGet('supportLibVersion', '27.1.1')}"
     implementation "com.android.support:appcompat-v7:${safeExtGet('supportLibVersion', '27.1.1')}"
@@ -62,7 +62,7 @@ dependencies {
     implementation 'com.balysv.materialmenu:material-menu-toolbar:1.5.4'
 
     // tests
-    testCompile "junit:junit:4.12"
-    testCompile "org.robolectric:robolectric:3.1.4"
-    testCompile 'org.assertj:assertj-core:2.5.0'
+    testImplementation "junit:junit:4.12"
+    testImplementation "org.robolectric:robolectric:3.1.4"
+    testImplementation 'org.assertj:assertj-core:2.5.0'
 }
