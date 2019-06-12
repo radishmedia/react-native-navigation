@@ -1,13 +1,17 @@
 apply plugin: 'com.android.library'
 apply from: '../prepare-robolectric.gradle'
 
+def safeExtGet(prop, fallback) {
+    rootProject.ext.has(prop) ? rootProject.ext.get(prop) : fallback
+}
+
 android {
-    compileSdkVersion 27
-    buildToolsVersion '27.0.3'
+    compileSdkVersion safeExtGet('compileSdkVersion', 27)
+    buildToolsVersion safeExtGet('buildTollsVersion', '27.0.3')
 
     defaultConfig {
-        minSdkVersion 16
-        targetSdkVersion 27
+        minSdkVersion safeExtGet('compileSdkVersion', 16)
+        targetSdkVersion safeExtGet('targetSdkVersion', 26)
         versionCode 1
         versionName "1.0"
     }
@@ -47,15 +51,15 @@ android {
 dependencies {
     compile fileTree(dir: "libs", include: ["*.jar"])
 
-    compile 'com.android.support:design:27.1.1'
-    compile "com.android.support:appcompat-v7:27.1.1"
+    implementation "com.android.support:design:${safeExtGet('supportLibVersion', '27.1.1')}"
+    implementation "com.android.support:appcompat-v7:${safeExtGet('supportLibVersion', '27.1.1')}"
 
     // node_modules
-    compile "com.facebook.react:react-native:+"
+    implementation "com.facebook.react:react-native:+"
 
     // third party
-    compile "com.aurelhubert:ahbottomnavigation:2.0.6"
-    compile 'com.balysv.materialmenu:material-menu-toolbar:1.5.4'
+    implementation "com.aurelhubert:ahbottomnavigation:2.0.6"
+    implementation 'com.balysv.materialmenu:material-menu-toolbar:1.5.4'
 
     // tests
     testCompile "junit:junit:4.12"
